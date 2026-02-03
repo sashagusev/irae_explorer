@@ -20,7 +20,8 @@ const categoryColors = {
     "Metabolism and nutrition disorders": "#8da0cb",
     "Cardiac disorders": "#e78ac3",
     "Eye disorders": "#a6d854",
-    "Vascular disorders": "#ffd92f"
+    "Vascular disorders": "#ffd92f",
+    "Other": "#888888"
 };
 
 // Severity colors
@@ -69,34 +70,26 @@ function hideTooltip() {
 }
 
 /**
- * Filter data to max time (3 years)
- */
-function filterToMaxTime(times, values, maxTime = MAX_TIME_DAYS) {
-    const filteredTimes = [];
-    const filteredValues = [];
-
-    for (let i = 0; i < times.length; i++) {
-        if (times[i] <= maxTime) {
-            filteredTimes.push(times[i]);
-            filteredValues.push(values[i]);
-        }
-    }
-
-    return { times: filteredTimes, values: filteredValues };
-}
-
-/**
  * Cumulative Incidence Chart
+ * Legend: smaller font, positioned to the right
  */
 function renderCumulativeIncidenceChart(containerId, data, options = {}) {
     const container = d3.select(containerId);
     container.html("");
 
-    const margin = { top: 20, right: 150, bottom: 50, left: 60 };
-    const width = (options.width || 800) - margin.left - margin.right;
+    // Create a flex container for chart + legend
+    const wrapper = container.append("div")
+        .style("display", "flex")
+        .style("align-items", "flex-start")
+        .style("gap", "20px");
+
+    const chartContainer = wrapper.append("div");
+
+    const margin = { top: 20, right: 20, bottom: 50, left: 60 };
+    const width = (options.width || 700) - margin.left - margin.right;
     const height = (options.height || 400) - margin.top - margin.bottom;
 
-    const svg = container.append("svg")
+    const svg = chartContainer.append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("class", "chart-svg");
@@ -113,7 +106,6 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
 
     curves.forEach(([key, curve]) => {
         if (curve.times && curve.times.length > 0) {
-            // Filter to max time
             for (let i = 0; i < curve.times.length; i++) {
                 if (curve.times[i] <= MAX_TIME_DAYS) {
                     maxIncidence = Math.max(maxIncidence, curve.cumulative_incidence[i]);
@@ -122,10 +114,9 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
         }
     });
 
-    // Default to reasonable values if no data
     maxIncidence = Math.min(Math.max(maxIncidence * 1.1, 0.1), 1);
 
-    // Scales - always use 3 years as max
+    // Scales
     const xScale = d3.scaleLinear()
         .domain([0, MAX_TIME_DAYS])
         .range([0, width]);
@@ -134,7 +125,7 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
         .domain([0, maxIncidence])
         .range([height, 0]);
 
-    // Axes with year markers
+    // Axes
     const xAxis = d3.axisBottom(xScale)
         .tickValues([0, 365, 730, 1095])
         .tickFormat(d => d === 0 ? '0' : d === 365 ? '1y' : d === 730 ? '2y' : '3y');
@@ -184,11 +175,9 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
     curves.forEach(([key]) => visibility[key] = true);
 
     // Draw curves
-    const paths = {};
     curves.forEach(([key, curve]) => {
         if (!curve.times || curve.times.length === 0) return;
 
-        // Filter data to max time
         const lineData = [];
         for (let i = 0; i < curve.times.length; i++) {
             if (curve.times[i] <= MAX_TIME_DAYS) {
@@ -229,15 +218,13 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
         }
 
         // Main line
-        const path = g.append("path")
+        g.append("path")
             .datum(lineData)
             .attr("class", `curve curve-${key.replace(/\s+/g, '-')}`)
             .attr("fill", "none")
             .attr("stroke", getColor(key))
             .attr("stroke-width", 2)
             .attr("d", line);
-
-        paths[key] = path;
 
         // Hover points
         g.selectAll(`.point-${key.replace(/\s+/g, '-')}`)
@@ -264,9 +251,11 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
             });
     });
 
-    // Legend
-    const legend = container.append("div")
-        .attr("class", "legend");
+    // Legend - positioned to the right, smaller font
+    const legend = wrapper.append("div")
+        .attr("class", "legend-right")
+        .style("font-size", "11px")
+        .style("max-width", "200px");
 
     curves.forEach(([key, curve]) => {
         if (!curve.times || curve.times.length === 0) return;
@@ -274,22 +263,29 @@ function renderCumulativeIncidenceChart(containerId, data, options = {}) {
         const item = legend.append("div")
             .attr("class", "legend-item")
             .style("cursor", "pointer")
+            .style("margin-bottom", "4px")
+            .style("display", "flex")
+            .style("align-items", "center")
             .on("click", function() {
                 visibility[key] = !visibility[key];
                 const opacity = visibility[key] ? 1 : 0.1;
                 const display = visibility[key] ? null : "none";
 
-                d3.select(this).classed("hidden", !visibility[key]);
+                d3.select(this).style("opacity", visibility[key] ? 1 : 0.4);
                 g.selectAll(`.curve-${key.replace(/\s+/g, '-')}`).attr("opacity", opacity);
                 g.selectAll(`.ci-area-${key.replace(/\s+/g, '-')}`).attr("opacity", visibility[key] ? 0.1 : 0);
                 g.selectAll(`.point-${key.replace(/\s+/g, '-')}`).style("display", display);
             });
 
         item.append("div")
-            .attr("class", "legend-color")
-            .style("background-color", getColor(key));
+            .style("width", "14px")
+            .style("height", "3px")
+            .style("background-color", getColor(key))
+            .style("margin-right", "6px")
+            .style("flex-shrink", "0");
 
         item.append("span")
+            .style("line-height", "1.2")
             .text(`${key} (n=${curve.n_events || 0})`);
     });
 }
@@ -402,6 +398,7 @@ function renderSankeyDiagram(containerId, data, options = {}) {
 
 /**
  * Heatmap for Hazard Ratios
+ * Colors: HR > 1 = red, HR < 1 = blue
  * Gray out non-significant cells (p > 0.05)
  */
 function renderHRHeatmap(containerId, data, options = {}) {
@@ -424,7 +421,6 @@ function renderHRHeatmap(containerId, data, options = {}) {
     const width = cols.length * cellSize;
     const height = rows.length * cellSize;
 
-    // Create unique gradient ID for this heatmap
     const gradientId = 'hr-gradient-' + Math.random().toString(36).substr(2, 9);
 
     const svg = container.append("svg")
@@ -433,13 +429,13 @@ function renderHRHeatmap(containerId, data, options = {}) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Color scale for HR (log scale, centered at 1)
+    // Color scale for HR: blue (< 1) - white (1) - red (> 1)
+    // Using interpolateRdBu reversed so that high values are red
     const colorScale = d3.scaleDiverging()
         .domain([0.25, 1, 4])
-        .interpolator(d3.interpolateRdBu)
+        .interpolator(t => d3.interpolateRdBu(1 - t))  // Reverse the interpolator
         .clamp(true);
 
-    // Gray color for non-significant
     const nsColor = "#e0e0e0";
 
     // Draw cells
@@ -451,14 +447,13 @@ function renderHRHeatmap(containerId, data, options = {}) {
             const pValue = cell.p_value;
             const isSignificant = pValue !== null && pValue <= 0.05;
 
-            // Determine fill color
             let fillColor;
             if (isDiagonal) {
                 fillColor = "#f0f0f0";
             } else if (hr === null) {
                 fillColor = "#eee";
             } else if (!isSignificant) {
-                fillColor = nsColor;  // Gray for non-significant
+                fillColor = nsColor;
             } else {
                 fillColor = colorScale(hr);
             }
@@ -482,7 +477,6 @@ function renderHRHeatmap(containerId, data, options = {}) {
                 })
                 .on("mouseout", hideTooltip);
 
-                // Add HR text - use darker text for gray cells
                 const textColor = !isSignificant ? "#666" : (hr > 2 || hr < 0.5 ? "white" : "#333");
                 svg.append("text")
                     .attr("x", j * cellSize + cellSize / 2)
@@ -547,6 +541,7 @@ function renderHRHeatmap(containerId, data, options = {}) {
     const gradient = defs.append("linearGradient")
         .attr("id", gradientId);
 
+    // Gradient: blue (0.25) -> white (1) -> red (4)
     gradient.selectAll("stop")
         .data([
             { offset: "0%", color: colorScale(0.25) },
@@ -591,7 +586,7 @@ function renderHRHeatmap(containerId, data, options = {}) {
         .style("font-size", "10px")
         .text("HR");
 
-    // Add non-significant legend
+    // Non-significant legend
     const nsLegend = legendContainer.append("div")
         .style("display", "flex")
         .style("align-items", "center")
@@ -623,15 +618,12 @@ function initSortableTable(tableId) {
             const rows = Array.from(tbody.querySelectorAll('tr'));
             const isAscending = header.classList.contains('sorted-asc');
 
-            // Clear all sort indicators
             headers.forEach(h => h.classList.remove('sorted-asc', 'sorted-desc'));
 
-            // Sort rows
             rows.sort((a, b) => {
                 const aVal = a.cells[index].textContent.trim();
                 const bVal = b.cells[index].textContent.trim();
 
-                // Try numeric comparison
                 const aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ''));
                 const bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ''));
 
@@ -639,16 +631,13 @@ function initSortableTable(tableId) {
                     return isAscending ? aNum - bNum : bNum - aNum;
                 }
 
-                // Fall back to string comparison
                 return isAscending
                     ? aVal.localeCompare(bVal)
                     : bVal.localeCompare(aVal);
             });
 
-            // Update sort indicator
             header.classList.add(isAscending ? 'sorted-desc' : 'sorted-asc');
 
-            // Re-append rows
             rows.forEach(row => tbody.appendChild(row));
         });
     });
@@ -672,10 +661,8 @@ function renderHRTable(containerId, data, options = {}) {
         .attr("class", "data-table hr-table")
         .attr("id", "hr-table");
 
-    // Check if we have bidirectional data
     const hasBidirectional = data[0] && data[0].hr_reverse !== undefined;
 
-    // Header
     const thead = table.append("thead");
     const headerRow = thead.append("tr");
 
@@ -693,7 +680,6 @@ function renderHRTable(containerId, data, options = {}) {
             .text(d => d);
     }
 
-    // Body
     const tbody = table.append("tbody");
 
     data.forEach(row => {
@@ -701,7 +687,6 @@ function renderHRTable(containerId, data, options = {}) {
 
         tr.append("td").text(row.comparison_category);
 
-        // Forward HR (other -> this category)
         if (row.hr !== null) {
             const hrCell = tr.append("td")
                 .attr("class", "numeric")
@@ -725,7 +710,6 @@ function renderHRTable(containerId, data, options = {}) {
             tr.append("td").attr("class", "numeric").text("-");
         }
 
-        // Reverse HR (this category -> other) if available
         if (hasBidirectional) {
             if (row.hr_reverse !== null) {
                 const hrReverseCell = tr.append("td")
@@ -755,12 +739,69 @@ function renderHRTable(containerId, data, options = {}) {
     initSortableTable("hr-table");
 }
 
+/**
+ * Render a simple association table
+ */
+function renderAssociationTable(containerId, data, options = {}) {
+    const container = d3.select(containerId);
+    container.html("");
+
+    if (!data || data.length === 0) {
+        container.append("div")
+            .attr("class", "no-data")
+            .text("No significant associations found");
+        return;
+    }
+
+    const tableId = options.tableId || 'assoc-table-' + Math.random().toString(36).substr(2, 9);
+
+    const table = container.append("table")
+        .attr("class", "data-table hr-table")
+        .attr("id", tableId);
+
+    const thead = table.append("thead");
+    thead.append("tr")
+        .selectAll("th")
+        .data([options.nameColumn || "Name", "HR", "95% CI", "p-value"])
+        .enter()
+        .append("th")
+        .text(d => d);
+
+    const tbody = table.append("tbody");
+
+    data.forEach(row => {
+        const tr = tbody.append("tr");
+
+        tr.append("td").text(row.name);
+
+        const hrCell = tr.append("td")
+            .attr("class", "numeric")
+            .text(row.hr.toFixed(2));
+
+        if (row.hr > 1.5) hrCell.classed("hr-high", true);
+        if (row.hr < 0.67) hrCell.classed("hr-low", true);
+
+        tr.append("td")
+            .attr("class", "numeric")
+            .text(`${row.ci_lower.toFixed(2)} - ${row.ci_upper.toFixed(2)}`);
+
+        const pCell = tr.append("td")
+            .attr("class", "numeric")
+            .text(row.p_value < 0.001 ? '<0.001' : row.p_value.toFixed(3));
+
+        if (row.p_value < 0.05) pCell.classed("significant", true);
+    });
+
+    initSortableTable(tableId);
+}
+
 // Export functions for use in templates
 window.iraeCharts = {
     renderCumulativeIncidenceChart,
     renderSankeyDiagram,
     renderHRHeatmap,
     renderHRTable,
+    renderAssociationTable,
     initSortableTable,
     categoryColors,
     severityColors,
