@@ -181,6 +181,14 @@
 
     // Initial render
     renderAllCharts('all');
+
+    // Add shadow when filter becomes sticky
+    const severityFilter = document.querySelector('.severity-filter');
+    const observer = new IntersectionObserver(
+        ([e]) => e.target.classList.toggle('stuck', e.intersectionRatio < 1),
+        { threshold: [1], rootMargin: '-1px 0px 0px 0px' }
+    );
+    observer.observe(severityFilter);
 </script>
 
 </body>
