@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigation - Small Cell Lung Cancer - irAE Trajectory</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+</head>
+<body>
+    <header>
+        
+<nav class="breadcrumb">
+    <a href="../../index.html">Home</a>
+    <span>&gt;</span>
+    <a href="../../cancer/small-cell-lung-cancer.html">Small Cell Lung Cancer</a>
+    <span>&gt;</span>
+    <span>Investigation</span>
+</nav>
+
+
+        <h1>Investigation</h1>
+
+        
+<p class="description">
+    Investigation events in Small Cell Lung Cancer patients.
+    6 patients experienced events in this category.
+</p>
+
+    </header>
+
+    <main>
+        
+<section class="panel">
+    <h2>Events in Category</h2>
+    <div class="category-grid">
+        
+        <a href="investigation/alkaline-phosphatase-increased.html" class="category-btn">
+            <span class="name">Alkaline phosphatase increased</span>
+            <div class="count">1 patients</div>
+        </a>
+        
+        <a href="investigation/investigations-other-specifylft-abnormal.html" class="category-btn">
+            <span class="name">Investigations - Other, specify_LFT abnormal</span>
+            <div class="count">5 patients</div>
+        </a>
+        
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Cumulative Incidence by Event Type</h2>
+    <div class="chart-container">
+        <div id="event-incidence-chart"></div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Hazard Ratios: Investigation vs Other Categories</h2>
+    <p class="description">
+        Bidirectional hazard ratios between Investigation and other categories.<br>
+        <strong>Other→This:</strong> HR of Investigation given prior exposure to other category.<br>
+        <strong>This→Other:</strong> HR of other category given prior exposure to Investigation.
+    </p>
+    <div id="hr-table-container"></div>
+</section>
+
+<section class="panel">
+    <h2>Event-to-Event Hazard Ratios</h2>
+    <p class="description">
+        Pairwise hazard ratios between event types within this category.
+        Rows indicate exposure; columns indicate outcome.
+        Gray cells indicate non-significant associations (p > 0.05).
+    </p>
+    <div class="chart-container heatmap-container">
+        <div id="event-heatmap"></div>
+    </div>
+</section>
+
+    </main>
+
+    <footer class="footer">
+        <p>irAE Trajectory Visualization | Data: 10698 patients, 31802 events</p>
+    </footer>
+
+    <script src="../../js/charts.js"></script>
+    
+<script>
+    // Event cumulative incidence data
+    const eventCIData = {"Alkaline phosphatase increased": {"ci_lower": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302], "ci_upper": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088], "cumulative_incidence": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018], "n_events": 1, "n_patients": 70, "times": [0.0, 0.5, 7.0, 9.0, 16.0, 25.0, 29.0, 31.0, 36.0, 39.0, 43.0, 47.0, 49.0, 50.0, 54.0, 58.0, 65.0, 66.0, 68.0, 74.0, 77.0, 81.0, 91.0, 103.0, 105.0, 106.0, 109.0, 121.0, 125.0, 127.0, 140.0, 148.0, 149.0, 158.0, 165.0, 168.0, 182.0, 185.0, 208.0, 214.0, 252.0, 279.0, 286.0, 305.0, 315.0, 327.0, 356.0, 399.0, 403.0, 428.0, 442.0, 483.0, 506.0, 585.0, 626.0, 663.0, 729.0, 755.0, 768.0, 776.0, 930.0, 931.0, 1202.0, 1441.0, 1489.0, 1614.0]}, "Investigations - Other, specify_LFT abnormal": {"ci_lower": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.0021482776729820907, 0.00863266848675348, 0.00863266848675348, 0.00863266848675348, 0.00863266848675348, 0.00863266848675348, 0.00863266848675348, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.018142595450949206, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.03371028200658699, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711, 0.06340952596991711], "ci_upper": [0.0, 0.0, 0.0, 0.0, 0.0, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.10271966236746499, 0.132253763988201, 0.132253763988201, 0.132253763988201, 0.132253763988201, 0.132253763988201, 0.132253763988201, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.1654383097758847, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.2458459483056148, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675, 0.46930155358923675], "cumulative_incidence": [0.0, 0.0, 0.0, 0.0, 0.0, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.015151515151515138, 0.03446226975638744, 0.03446226975638744, 0.03446226975638744, 0.03446226975638744, 0.03446226975638744, 0.03446226975638744, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.05591866376180099, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.09368191721132868, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587, 0.18431372549019587], "n_events": 5, "n_patients": 70, "times": [0.0, 0.5, 7.0, 9.0, 16.0, 22.0, 25.0, 29.0, 31.0, 36.0, 39.0, 43.0, 47.0, 49.0, 50.0, 54.0, 58.0, 59.0, 65.0, 66.0, 74.0, 77.0, 81.0, 89.0, 91.0, 103.0, 105.0, 109.0, 121.0, 125.0, 127.0, 140.0, 148.0, 149.0, 158.0, 165.0, 168.0, 182.0, 208.0, 214.0, 252.0, 279.0, 286.0, 302.0, 305.0, 315.0, 327.0, 356.0, 399.0, 403.0, 428.0, 442.0, 483.0, 514.0, 585.0, 626.0, 655.0, 663.0, 729.0, 755.0, 776.0, 930.0, 931.0, 1202.0, 1441.0, 1614.0]}};
+
+    // Generate colors for events
+    const eventColors = {};
+    const events = Object.keys(eventCIData);
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+    events.forEach((e, i) => eventColors[e] = colorScale(i));
+
+    // Render event incidence chart
+    iraeCharts.renderCumulativeIncidenceChart('#event-incidence-chart', eventCIData, {
+        width: 900,
+        height: 450,
+        colorMap: (key) => eventColors[key] || '#999'
+    });
+
+    // HR table data
+    const hrTableData = [{"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Blood and lymphatic system disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Cardiac disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": 0.0, "ci_lower_reverse": 0.09342925680874703, "ci_upper": Infinity, "ci_upper_reverse": 5.578470103173213, "comparison_category": "Endocrine disorders", "hr": 8.438720937453232e-08, "hr_reverse": 0.7219365040426255, "p_value": 0.9952659296904601, "p_value_reverse": 0.7548044710936598}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Eye disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": 0.13738408107333092, "ci_lower_reverse": null, "ci_upper": 4.5120879509292, "ci_upper_reverse": null, "comparison_category": "Gastrointestinal disorders", "hr": 0.7873303352852961, "hr_reverse": null, "p_value": 0.7883689368736495, "p_value_reverse": null}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Hepatobiliary disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Metabolism and nutrition disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": 0.07280933484205264, "ci_lower_reverse": 0.10248746052202286, "ci_upper": 5.767813401874252, "ci_upper_reverse": 6.614635635138716, "comparison_category": "Musculoskeletal and connective tissue disorders", "hr": 0.6480359999903872, "hr_reverse": 0.8233572787823308, "p_value": 0.6973247511824585, "p_value_reverse": 0.8549333593739259}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Nervous system disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Renal and urinary disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}, {"ci_lower": 0.0, "ci_lower_reverse": 0.0, "ci_upper": Infinity, "ci_upper_reverse": Infinity, "comparison_category": "Respiratory, thoracic and mediastinal disorders", "hr": 6.552469804854973e-08, "hr_reverse": 9.324993219892648e-08, "p_value": 0.9946818171783013, "p_value_reverse": 0.994480426069045}, {"ci_lower": 0.34729438186166395, "ci_lower_reverse": null, "ci_upper": 8.858213380951929, "ci_upper_reverse": null, "comparison_category": "Skin and subcutaneous tissue disorders", "hr": 1.7539691389920233, "hr_reverse": null, "p_value": 0.49649205534006924, "p_value_reverse": null}, {"ci_lower": null, "ci_lower_reverse": null, "ci_upper": null, "ci_upper_reverse": null, "comparison_category": "Vascular disorders", "hr": null, "hr_reverse": null, "p_value": null, "p_value_reverse": null}];
+    iraeCharts.renderHRTable('#hr-table-container', hrTableData);
+
+    // Event heatmap data
+    const eventHeatmapData = {"Alkaline phosphatase increased": {"Alkaline phosphatase increased": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Investigations - Other, specify_LFT abnormal": {"ci_lower": null, "ci_upper": null, "hr": null, "n_events": 5, "n_exposed": 1, "p_value": null}}, "Investigations - Other, specify_LFT abnormal": {"Alkaline phosphatase increased": {"ci_lower": null, "ci_upper": null, "hr": null, "n_events": 1, "n_exposed": 5, "p_value": null}, "Investigations - Other, specify_LFT abnormal": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}}};
+    iraeCharts.renderHRHeatmap('#event-heatmap', eventHeatmapData, {
+        cellSize: 50,
+        labelWidth: 180
+    });
+</script>
+
+</body>
+</html>

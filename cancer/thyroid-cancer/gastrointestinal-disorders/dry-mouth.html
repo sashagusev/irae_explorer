@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dry mouth - Gastrointestinal disorders - Thyroid Cancer - irAE Trajectory</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+</head>
+<body>
+    <header>
+        
+<nav class="breadcrumb">
+    <a href="../../../index.html">Home</a>
+    <span>&gt;</span>
+    <a href="../../../cancer/thyroid-cancer.html">Thyroid Cancer</a>
+    <span>&gt;</span>
+    <a href="../../../cancer/thyroid-cancer/gastrointestinal-disorders.html">Gastrointestinal disorders</a>
+    <span>&gt;</span>
+    <span>Dry mouth</span>
+</nav>
+
+
+        <h1>Dry mouth</h1>
+
+        
+<p class="description">
+    Dry mouth events in Thyroid Cancer patients.
+    8 patients experienced this event.
+</p>
+
+    </header>
+
+    <main>
+        
+<section class="summary-stats">
+    <div class="stat-box">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Patients Affected</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Mild</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Moderate</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Severe</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Life-threatening</div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Cumulative Incidence by Severity</h2>
+    <p class="description">
+        Cumulative incidence curves stratified by event severity level.
+    </p>
+    <div class="chart-container">
+        <div id="severity-incidence-chart"></div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Severity and Mortality Hazard Ratios</h2>
+    <p class="description">
+        Pairwise hazard ratios between severity levels and mortality.
+        Rows indicate exposure severity; columns indicate outcome.
+        Gray cells indicate non-significant associations (p > 0.05).
+    </p>
+    <div class="chart-container heatmap-container">
+        <div id="severity-heatmap"></div>
+    </div>
+</section>
+
+    </main>
+
+    <footer class="footer">
+        <p>irAE Trajectory Visualization | Data: 10698 patients, 31802 events</p>
+    </footer>
+
+    <script src="../../../js/charts.js"></script>
+    
+<script>
+    // Severity cumulative incidence data
+    const severityCIData = {"Life-threatening": {"ci_lower": [], "ci_upper": [], "cumulative_incidence": [], "n_events": 0, "n_patients": 81, "times": []}, "Mild": {"ci_lower": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0026795194571263004, 0.0026795194571263004, 0.009666722925920523, 0.009666722925920523, 0.009666722925920523, 0.009666722925920523, 0.009666722925920523, 0.009666722925920523, 0.01952697762656752, 0.01952697762656752, 0.01952697762656752, 0.03141400718630061, 0.03141400718630061, 0.03141400718630061, 0.03141400718630061, 0.03141400718630061, 0.03141400718630061, 0.03141400718630061, 0.03141400718630061, 0.04656637773304084, 0.04656637773304084, 0.06365391812897159, 0.06365391812897159, 0.06365391812897159, 0.08291358161906515, 0.08291358161906515, 0.08291358161906515, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117, 0.10506635856412117], "ci_upper": [0.0, 0.0, 0.0, 0.0, 0.0, 0.12648371197981934, 0.12648371197981934, 0.14391584520103728, 0.14391584520103728, 0.14391584520103728, 0.14391584520103728, 0.14391584520103728, 0.14391584520103728, 0.17361791306574292, 0.17361791306574292, 0.17361791306574292, 0.2043614803500079, 0.2043614803500079, 0.2043614803500079, 0.2043614803500079, 0.2043614803500079, 0.2043614803500079, 0.2043614803500079, 0.2043614803500079, 0.24657184101071405, 0.24657184101071405, 0.2864310022845743, 0.2864310022845743, 0.2864310022845743, 0.3276114932818831, 0.3276114932818831, 0.3276114932818831, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204, 0.37370294059784204], "cumulative_incidence": [0.0, 0.0, 0.0, 0.0, 0.0, 0.018867924528301883, 0.018867924528301883, 0.03810580836108024, 0.03810580836108024, 0.03810580836108024, 0.03810580836108024, 0.03810580836108024, 0.03810580836108024, 0.05948123484194523, 0.05948123484194523, 0.05948123484194523, 0.08187453877427975, 0.08187453877427975, 0.08187453877427975, 0.08187453877427975, 0.08187453877427975, 0.08187453877427975, 0.08187453877427975, 0.08187453877427975, 0.1096965224477865, 0.1096965224477865, 0.13841598946559974, 0.13841598946559974, 0.13841598946559974, 0.16918684698468534, 0.16918684698468534, 0.16918684698468534, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683, 0.20380406169365683], "n_events": 8, "n_patients": 81, "times": [0.0, 0.5, 1.0, 9.0, 12.0, 15.0, 17.0, 20.0, 29.0, 35.0, 47.0, 53.0, 67.0, 70.0, 77.0, 79.0, 91.0, 107.0, 115.0, 119.0, 126.0, 129.0, 134.0, 139.0, 147.0, 151.0, 155.0, 164.0, 167.0, 176.0, 180.0, 206.0, 238.0, 244.0, 258.0, 268.0, 283.0, 291.0, 318.0, 331.0, 369.0, 370.0, 376.0, 411.0, 441.0, 565.0, 596.0, 668.0, 722.0, 732.0, 756.0, 764.0, 808.0, 816.0, 1051.0, 1139.0]}, "Moderate": {"ci_lower": [], "ci_upper": [], "cumulative_incidence": [], "n_events": 0, "n_patients": 81, "times": []}, "Severe": {"ci_lower": [], "ci_upper": [], "cumulative_incidence": [], "n_events": 0, "n_patients": 81, "times": []}};
+
+    // Render severity incidence chart
+    iraeCharts.renderCumulativeIncidenceChart('#severity-incidence-chart', severityCIData, {
+        width: 900,
+        height: 450,
+        colorMap: (key) => iraeCharts.severityColors[key] || '#999'
+    });
+
+    // Severity heatmap data
+    const severityHeatmapData = {"Life-threatening": {"Life-threatening": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Mild": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Moderate": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}}, "Mild": {"Life-threatening": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mild": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Moderate": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mortality": {"ci_lower": 0.1243032011418414, "ci_upper": 2.5467511426770466, "hr": 0.562644932036537, "p_value": 0.4553538133019164}, "Severe": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}}, "Moderate": {"Life-threatening": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mild": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Moderate": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}}, "Severe": {"Life-threatening": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mild": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Moderate": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}}};
+    iraeCharts.renderHRHeatmap('#severity-heatmap', severityHeatmapData, {
+        cellSize: 60,
+        labelWidth: 120
+    });
+</script>
+
+</body>
+</html>

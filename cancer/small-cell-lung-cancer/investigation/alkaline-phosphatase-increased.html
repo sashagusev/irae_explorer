@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alkaline phosphatase increased - Investigation - Small Cell Lung Cancer - irAE Trajectory</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+</head>
+<body>
+    <header>
+        
+<nav class="breadcrumb">
+    <a href="../../../index.html">Home</a>
+    <span>&gt;</span>
+    <a href="../../../cancer/small-cell-lung-cancer.html">Small Cell Lung Cancer</a>
+    <span>&gt;</span>
+    <a href="../../../cancer/small-cell-lung-cancer/investigation.html">Investigation</a>
+    <span>&gt;</span>
+    <span>Alkaline phosphatase increased</span>
+</nav>
+
+
+        <h1>Alkaline phosphatase increased</h1>
+
+        
+<p class="description">
+    Alkaline phosphatase increased events in Small Cell Lung Cancer patients.
+    1 patients experienced this event.
+</p>
+
+    </header>
+
+    <main>
+        
+<section class="summary-stats">
+    <div class="stat-box">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Patients Affected</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Mild</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Moderate</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Severe</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Life-threatening</div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Cumulative Incidence by Severity</h2>
+    <p class="description">
+        Cumulative incidence curves stratified by event severity level.
+    </p>
+    <div class="chart-container">
+        <div id="severity-incidence-chart"></div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Severity and Mortality Hazard Ratios</h2>
+    <p class="description">
+        Pairwise hazard ratios between severity levels and mortality.
+        Rows indicate exposure severity; columns indicate outcome.
+        Gray cells indicate non-significant associations (p > 0.05).
+    </p>
+    <div class="chart-container heatmap-container">
+        <div id="severity-heatmap"></div>
+    </div>
+</section>
+
+    </main>
+
+    <footer class="footer">
+        <p>irAE Trajectory Visualization | Data: 10698 patients, 31802 events</p>
+    </footer>
+
+    <script src="../../../js/charts.js"></script>
+    
+<script>
+    // Severity cumulative incidence data
+    const severityCIData = {"Life-threatening": {"ci_lower": [], "ci_upper": [], "cumulative_incidence": [], "n_events": 0, "n_patients": 70, "times": []}, "Mild": {"ci_lower": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302, 0.002841683839272302], "ci_upper": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088, 0.1336144329273088], "cumulative_incidence": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018, 0.020000000000000018], "n_events": 1, "n_patients": 70, "times": [0.0, 0.5, 7.0, 9.0, 16.0, 25.0, 29.0, 31.0, 36.0, 39.0, 43.0, 47.0, 49.0, 50.0, 54.0, 58.0, 65.0, 66.0, 68.0, 74.0, 77.0, 81.0, 91.0, 103.0, 105.0, 106.0, 109.0, 121.0, 125.0, 127.0, 140.0, 148.0, 149.0, 158.0, 165.0, 168.0, 182.0, 185.0, 208.0, 214.0, 252.0, 279.0, 286.0, 305.0, 315.0, 327.0, 356.0, 399.0, 403.0, 428.0, 442.0, 483.0, 506.0, 585.0, 626.0, 663.0, 729.0, 755.0, 768.0, 776.0, 930.0, 931.0, 1202.0, 1441.0, 1489.0, 1614.0]}, "Moderate": {"ci_lower": [], "ci_upper": [], "cumulative_incidence": [], "n_events": 0, "n_patients": 70, "times": []}, "Severe": {"ci_lower": [], "ci_upper": [], "cumulative_incidence": [], "n_events": 0, "n_patients": 70, "times": []}};
+
+    // Render severity incidence chart
+    iraeCharts.renderCumulativeIncidenceChart('#severity-incidence-chart', severityCIData, {
+        width: 900,
+        height: 450,
+        colorMap: (key) => iraeCharts.severityColors[key] || '#999'
+    });
+
+    // Severity heatmap data
+    const severityHeatmapData = {"Life-threatening": {"Life-threatening": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Mild": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Moderate": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}}, "Mild": {"Life-threatening": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mild": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Moderate": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}}, "Moderate": {"Life-threatening": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mild": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Moderate": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}}, "Severe": {"Life-threatening": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mild": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Moderate": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Mortality": {"ci_lower": null, "ci_upper": null, "hr": null, "p_value": null}, "Severe": {"ci_lower": 1.0, "ci_upper": 1.0, "diagonal": true, "hr": 1.0, "p_value": null}}};
+    iraeCharts.renderHRHeatmap('#severity-heatmap', severityHeatmapData, {
+        cellSize: 60,
+        labelWidth: 120
+    });
+</script>
+
+</body>
+</html>

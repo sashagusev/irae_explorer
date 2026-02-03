@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>irAE Trajectory - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+</head>
+<body>
+    <header>
+        
+
+        <h1>irAE Trajectory Visualization</h1>
+
+        
+<p class="description">
+    Interactive visualization of immune-related adverse event (irAE) trajectories across cancer types.
+    Explore incidence patterns, cumulative incidence curves, and hazard ratios.
+</p>
+
+    </header>
+
+    <main>
+        
+<section class="summary-stats">
+    <div class="stat-box">
+        <div class="stat-value">10,698</div>
+        <div class="stat-label">Patients</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">31,802</div>
+        <div class="stat-label">Events</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">21</div>
+        <div class="stat-label">Cancer Types</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-value">14</div>
+        <div class="stat-label">Event Categories</div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Event Incidence by Cancer Type and Category</h2>
+    <p class="description">
+        Click on a cancer type to view detailed trajectory analysis.
+        Numbers indicate unique patients experiencing events in each category.
+    </p>
+
+    <div class="incidence-matrix">
+        <table class="data-table" id="incidence-table">
+            <thead>
+                <tr>
+                    <th>Cancer Type</th>
+                    
+                    <th title="Blood and lymphatic system disorders">Blood and lymphatic syste...</th>
+                    
+                    <th title="Cardiac disorders">Cardiac disorders</th>
+                    
+                    <th title="Endocrine disorders">Endocrine disorders</th>
+                    
+                    <th title="Eye disorders">Eye disorders</th>
+                    
+                    <th title="Gastrointestinal disorders">Gastrointestinal disorder...</th>
+                    
+                    <th title="Hepatobiliary disorders">Hepatobiliary disorders</th>
+                    
+                    <th title="Investigation">Investigation</th>
+                    
+                    <th title="Metabolism and nutrition disorders">Metabolism and nutrition ...</th>
+                    
+                    <th title="Musculoskeletal and connective tissue disorders">Musculoskeletal and conne...</th>
+                    
+                    <th title="Nervous system disorders">Nervous system disorders</th>
+                    
+                    <th title="Renal and urinary disorders">Renal and urinary disorde...</th>
+                    
+                    <th title="Respiratory, thoracic and mediastinal disorders">Respiratory, thoracic and...</th>
+                    
+                    <th title="Skin and subcutaneous tissue disorders">Skin and subcutaneous tis...</th>
+                    
+                    <th title="Vascular disorders">Vascular disorders</th>
+                    
+                    <th>Total Patients</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/biliary-cancer.html">Biliary Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        17
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        27
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        63
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        16
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        12
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        58
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">183</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/bladder-cancer.html">Bladder Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        29
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        90
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        9
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        158
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        48
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        53
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        54
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        35
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        41
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        171
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">381</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/breast-carcinoma.html">Breast Carcinoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        34
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        131
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        9
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        225
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        38
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        75
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        28
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        104
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        71
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        75
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        194
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">496</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/cancer-of-unknown-primary.html">Cancer of Unknown Primary</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        21
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        81
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        127
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        23
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        40
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        42
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        38
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        116
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">357</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/colorectal-cancer.html">Colorectal Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        90
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        133
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        70
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        9
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        60
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        15
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        7
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        21
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        115
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">301</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/endometrial-cancer.html">Endometrial Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        69
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        110
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        12
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        21
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        51
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        31
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        33
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        71
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">257</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/esophagogastric-carcinoma.html">Esophagogastric Carcinoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        25
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        101
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        210
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        26
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        50
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        64
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        47
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        66
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        156
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">528</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/glioma.html">Glioma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        67
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        95
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        43
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        27
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        44
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        14
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        9
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        120
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">456</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/head-and-neck-carcinoma.html">Head and Neck Carcinoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        7
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        48
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        58
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        15
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        4
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        24
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        62
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">156</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/melanoma.html">Melanoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        31
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        337
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        35
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        408
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        130
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        143
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        51
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        232
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        54
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        45
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        129
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        549
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">1001</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/mesothelioma.html">Mesothelioma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        16
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        38
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        30
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        49
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">125</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/non-small-cell-lung-cancer.html">Non-Small Cell Lung Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        113
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        50
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        380
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        14
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        610
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        90
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        187
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        51
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        314
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        127
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        79
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        397
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        628
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">1836</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/other.html">Other</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        263
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        58
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        781
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        40
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1262
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        185
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        431
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        106
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        572
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        244
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        146
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        441
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1275
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">3546</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/ovarian-cancer.html">Ovarian Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        19
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        4
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        60
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        87
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        12
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        37
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        34
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        25
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        66
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">229</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/pancreatic-cancer.html">Pancreatic Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        12
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        20
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        56
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        7
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        27
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        27
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        52
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">131</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/prostate-cancer.html">Prostate Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        24
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        35
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        16
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        7
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        13
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        26
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">86</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/renal-cell-carcinoma.html">Renal Cell Carcinoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        84
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        5
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        80
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        36
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        9
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        53
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        18
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        31
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        88
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">230</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/skin-cancer-non-melanoma.html">Skin Cancer, Non-Melanoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        17
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        35
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        14
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        21
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        22
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        60
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">113</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/small-cell-lung-cancer.html">Small Cell Lung Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        13
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        19
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        6
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        19
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">70</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/soft-tissue-sarcoma.html">Soft Tissue Sarcoma</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        14
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        33
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        45
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        9
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        21
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        36
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        8
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        4
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        13
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        45
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">135</td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <a href="cancer/thyroid-cancer.html">Thyroid Cancer</a>
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        1
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        13
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        27
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        4
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        12
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        4
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        11
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        3
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        2
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        10
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        31
+                        
+                    </td>
+                    
+                    <td class="numeric">
+                        
+                        0
+                        
+                    </td>
+                    
+                    <td class="numeric">81</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</section>
+
+    </main>
+
+    <footer class="footer">
+        <p>irAE Trajectory Visualization | Data: 10698 patients, 31802 events</p>
+    </footer>
+
+    <script src="js/charts.js"></script>
+    
+<script>
+    iraeCharts.initSortableTable('incidence-table');
+</script>
+
+</body>
+</html>
